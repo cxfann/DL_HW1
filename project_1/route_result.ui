@@ -17,11 +17,17 @@
    <widget class="QPushButton" name="result2main">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>90</y>
-      <width>181</width>
+      <x>790</x>
+      <y>330</y>
+      <width>231</width>
       <height>111</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>霞鹜文楷</family>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>返回主菜单</string>
@@ -30,11 +36,17 @@
    <widget class="QPushButton" name="result2route">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>90</y>
-      <width>201</width>
+      <x>790</x>
+      <y>600</y>
+      <width>231</width>
       <height>111</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>霞鹜文楷</family>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>再次查询</string>
@@ -43,11 +55,19 @@
    <widget class="QLabel" name="dir">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>240</y>
-      <width>391</width>
-      <height>31</height>
+      <x>400</x>
+      <y>10</y>
+      <width>711</width>
+      <height>71</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>霞鹜文楷</family>
+      <pointsize>24</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
     </property>
     <property name="text">
      <string>TextLabel</string>
@@ -56,11 +76,17 @@
    <widget class="QLabel" name="time">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>320</y>
+      <x>800</x>
+      <y>120</y>
       <width>321</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>黑体</family>
+      <pointsize>12</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>TextLabel</string>
@@ -69,11 +95,17 @@
    <widget class="QLabel" name="length">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>360</y>
+      <x>800</x>
+      <y>170</y>
       <width>321</width>
-      <height>16</height>
+      <height>21</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>黑体</family>
+      <pointsize>12</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>TextLabel</string>
@@ -82,11 +114,17 @@
    <widget class="QLabel" name="num">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>400</y>
+      <x>800</x>
+      <y>220</y>
       <width>321</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>黑体</family>
+      <pointsize>12</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>TextLabel</string>
@@ -95,11 +133,17 @@
    <widget class="QLabel" name="company">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>430</y>
+      <x>800</x>
+      <y>270</y>
       <width>331</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>黑体</family>
+      <pointsize>12</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>TextLabel</string>
@@ -108,11 +152,17 @@
    <widget class="QLabel" name="stops">
     <property name="geometry">
      <rect>
-      <x>610</x>
-      <y>140</y>
-      <width>451</width>
-      <height>441</height>
+      <x>450</x>
+      <y>90</y>
+      <width>241</width>
+      <height>611</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>等线</family>
+      <pointsize>10</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>TextLabel</string>
@@ -121,16 +171,86 @@
    <widget class="QPushButton" name="change_dir">
     <property name="geometry">
      <rect>
-      <x>920</x>
-      <y>610</y>
-      <width>131</width>
+      <x>790</x>
+      <y>470</y>
+      <width>231</width>
       <height>101</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>霞鹜文楷</family>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>更换方向</string>
     </property>
    </widget>
+   <widget class="QLabel" name="buses">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>90</y>
+      <width>241</width>
+      <height>611</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>等线</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QListView" name="listView">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>361</width>
+      <height>741</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: url(&quot;C:background.jpg&quot;)</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>700</y>
+      <width>371</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>黑体</family>
+      <pointsize>14</pointsize>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="text">
+     <string>●表示该站点区间实时有公交车辆</string>
+    </property>
+   </widget>
+   <zorder>listView</zorder>
+   <zorder>result2main</zorder>
+   <zorder>result2route</zorder>
+   <zorder>dir</zorder>
+   <zorder>time</zorder>
+   <zorder>length</zorder>
+   <zorder>num</zorder>
+   <zorder>company</zorder>
+   <zorder>stops</zorder>
+   <zorder>change_dir</zorder>
+   <zorder>buses</zorder>
+   <zorder>label</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

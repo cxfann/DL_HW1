@@ -17,11 +17,17 @@
    <widget class="QPushButton" name="result2main">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>90</y>
-      <width>181</width>
+      <x>790</x>
+      <y>320</y>
+      <width>231</width>
       <height>111</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>霞鹜文楷</family>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>返回主菜单</string>
@@ -30,11 +36,17 @@
    <widget class="QPushButton" name="result2station">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>90</y>
-      <width>201</width>
+      <x>790</x>
+      <y>590</y>
+      <width>231</width>
       <height>111</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>霞鹜文楷</family>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>再次查询</string>
@@ -43,11 +55,17 @@
    <widget class="QLabel" name="station_name">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>270</y>
+      <x>410</x>
+      <y>60</y>
       <width>711</width>
-      <height>71</height>
+      <height>81</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>霞鹜文楷</family>
+      <pointsize>28</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>TextLabel</string>
@@ -56,11 +74,17 @@
    <widget class="QLabel" name="pass_routes">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>440</y>
-      <width>581</width>
-      <height>81</height>
+      <x>430</x>
+      <y>140</y>
+      <width>311</width>
+      <height>601</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>霞鹜文楷</family>
+      <pointsize>16</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>TextLabel</string>
@@ -69,16 +93,41 @@
    <widget class="QPushButton" name="next_station">
     <property name="geometry">
      <rect>
-      <x>750</x>
-      <y>550</y>
-      <width>241</width>
-      <height>161</height>
+      <x>790</x>
+      <y>460</y>
+      <width>231</width>
+      <height>101</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>霞鹜文楷</family>
+      <pointsize>16</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>下一个匹配站点</string>
     </property>
    </widget>
+   <widget class="QListView" name="listView">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>361</width>
+      <height>741</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: url(&quot;C:background.jpg&quot;)</string>
+    </property>
+   </widget>
+   <zorder>listView</zorder>
+   <zorder>result2main</zorder>
+   <zorder>result2station</zorder>
+   <zorder>station_name</zorder>
+   <zorder>pass_routes</zorder>
+   <zorder>next_station</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

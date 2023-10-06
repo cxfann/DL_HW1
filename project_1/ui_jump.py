@@ -1,5 +1,4 @@
 import sys
-import time
 from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget
 from Ui_main_window import Ui_MainWindow as UiMain
 from Ui_search_route import Ui_MainWindow as UiRoute
@@ -31,6 +30,7 @@ class Controller:
         self.label_r_num = None
         self.label_r_company = None
         self.label_r_stops = None
+        self.label_r_buses = None
         self.route_dir = 0  # 0 or 1
 
 
@@ -139,6 +139,7 @@ class Controller:
         self.label_r_num = ui.num
         self.label_r_company = ui.company
         self.label_r_stops = ui.stops
+        self.label_r_buses = ui.buses
         
 
         ui.result2main.clicked.connect(self.show_main)
@@ -151,6 +152,13 @@ class Controller:
 
         if route_result == None:
             self.label_r_dir.setText("查找的线路不存在！")
+            self.label_r_time.setText("")
+            self.label_r_length.setText("")
+            self.label_r_num.setText("")
+            self.label_r_company.setText("")
+            self.label_r_stops.setText("")
+            self.label_r_buses.setText("")
+
         elif len(route_result) == 1:
             result = route_result[0]
             self.label_r_dir.setText(result['dir'])
@@ -158,11 +166,17 @@ class Controller:
             self.label_r_length.setText(result['length'])
             self.label_r_num.setText(result['stops_num'])
             self.label_r_company.setText(result['company'])
-            text = ""
+            text_s = text_b = ""
             for key, value in result['stops'].items():
-                text = text + str(key) + "    " + str(value) + '<br>'
+                text_s = text_s + str(key)+ '<br>'
+                if value == 1:
+                    text_b = text_b + '●' + '<br>'
+                else:
+                    text_b = text_b + '○' + '<br>'
 
-            self.label_r_stops.setText(text)
+
+            self.label_r_stops.setText(text_s)
+            self.label_r_buses.setText(text_b)
 
 
         else:
@@ -172,12 +186,17 @@ class Controller:
             self.label_r_length.setText(result['length'])
             self.label_r_num.setText(result['stops_num'])
             self.label_r_company.setText(result['company'])
-            text = ""
+            text_s = text_b = ""
             for key, value in result['stops'].items():
-                text = text + str(key) + "    " + str(value) + '<br>'
+                text_s = text_s + str(key)+ '<br>'
+                if value == 1:
+                    text_b = text_b + '●' + '<br>'
+                else:
+                    text_b = text_b + '○' + '<br>'
 
-            self.label_r_stops.setText(text)
-            
+
+            self.label_r_stops.setText(text_s)
+            self.label_r_buses.setText(text_b)
 
         if self.window_main is not None:
             self.window_main.close()
@@ -199,11 +218,17 @@ class Controller:
             self.label_r_length.setText(result['length'])
             self.label_r_num.setText(result['stops_num'])
             self.label_r_company.setText(result['company'])
-            text = ""
+            text_s = text_b = ""
             for key, value in result['stops'].items():
-                text = text + str(key) + "    " + str(value) + '<br>'
+                text_s = text_s + str(key)+ '<br>'
+                if value == 1:
+                    text_b = text_b + '●' + '<br>'
+                else:
+                    text_b = text_b + '○' + '<br>'
 
-            self.label_r_stops.setText(text)
+
+            self.label_r_stops.setText(text_s)
+            self.label_r_buses.setText(text_b)
 
 
 
@@ -228,8 +253,10 @@ class Controller:
             show_station = station_result[self.station_order]
             self.label_s_name.setText(show_station['name'])
             text = ""
+            if show_station['route'] == []:
+                text = "该站点没有公交线路！"
             for route in show_station['route']:
-                text = text + str(route) + '   '
+                text = text + str(route) + '<br>'
             self.label_s_routes.setText(text)
 
         if self.window_main is not None:
@@ -247,8 +274,10 @@ class Controller:
         show_station = station_result[self.station_order]
         self.label_s_name.setText(show_station['name'])
         text = ""
+        if show_station['route'] == []:
+            text = "该站点没有公交线路！"
         for route in show_station['route']:
-            text = text + str(route) + '   '
+            text = text + str(route) + '<br>'
         self.label_s_routes.setText(text)
 
 
@@ -256,6 +285,3 @@ class Controller:
         self.show_main()
         sys.exit(self.app.exec_())
 
-if __name__ == "__main__":
-    controller = Controller()
-    controller.run()

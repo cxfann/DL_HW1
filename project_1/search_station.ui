@@ -17,11 +17,17 @@
    <widget class="QPushButton" name="station2main">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>90</y>
-      <width>181</width>
+      <x>440</x>
+      <y>570</y>
+      <width>261</width>
       <height>111</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>霞鹜文楷</family>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>返回主菜单</string>
@@ -30,21 +36,33 @@
    <widget class="QLineEdit" name="line_station">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>380</y>
-      <width>601</width>
-      <height>61</height>
+      <x>440</x>
+      <y>330</y>
+      <width>421</width>
+      <height>91</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>26</pointsize>
+     </font>
     </property>
    </widget>
    <widget class="QPushButton" name="search_station">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>370</y>
-      <width>141</width>
-      <height>81</height>
+      <x>900</x>
+      <y>330</y>
+      <width>151</width>
+      <height>91</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>霞鹜文楷</family>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>查询</string>
@@ -53,16 +71,59 @@
    <widget class="QLabel" name="empty_warn">
     <property name="geometry">
      <rect>
-      <x>430</x>
-      <y>480</y>
-      <width>441</width>
-      <height>31</height>
+      <x>600</x>
+      <y>440</y>
+      <width>511</width>
+      <height>81</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>霞鹜文楷</family>
+      <pointsize>12</pointsize>
+      <underline>true</underline>
+     </font>
     </property>
     <property name="text">
      <string>TextLabel</string>
     </property>
    </widget>
+   <widget class="QListView" name="listView">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>361</width>
+      <height>741</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: url(&quot;C:background.jpg&quot;)</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>60</y>
+      <width>431</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 28pt &quot;霞鹜文楷&quot;;
+text-decoration: underline;</string>
+    </property>
+    <property name="text">
+     <string>查找公交站点</string>
+    </property>
+   </widget>
+   <zorder>listView</zorder>
+   <zorder>station2main</zorder>
+   <zorder>line_station</zorder>
+   <zorder>search_station</zorder>
+   <zorder>empty_warn</zorder>
+   <zorder>label</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
