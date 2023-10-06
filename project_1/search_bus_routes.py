@@ -112,7 +112,7 @@ def search_bus_route(bus_route):
 
         return imformations
 
-print(search_bus_route('102'))
+# print(search_bus_route('3'))
     
 
 

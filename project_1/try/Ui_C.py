@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\87211\Desktop\DL_P\project_1\C.ui'
+# Form implementation generated from reading ui file 'c:\Users\87211\Desktop\DL_P\project_1\try\C.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -20,6 +20,9 @@ class Ui_MainWindow(object):
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(240, 250, 321, 171))
         self.pushButton.setObjectName("pushButton")
+        self.input_c = QtWidgets.QLineEdit(self.centralwidget)
+        self.input_c.setGeometry(QtCore.QRect(260, 100, 211, 61))
+        self.input_c.setObjectName("input_c")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))

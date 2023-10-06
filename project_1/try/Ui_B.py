@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\87211\Desktop\DL_P\project_1\B.ui'
+# Form implementation generated from reading ui file 'c:\Users\87211\Desktop\DL_P\project_1\try\B.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -20,6 +20,9 @@ class Ui_MainWindow(object):
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(240, 250, 321, 171))
         self.pushButton.setObjectName("pushButton")
+        self.labeltest = QtWidgets.QLabel(self.centralwidget)
+        self.labeltest.setGeometry(QtCore.QRect(250, 130, 301, 71))
+        self.labeltest.setObjectName("labeltest")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
@@ -36,3 +39,4 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "to_C"))
+        self.labeltest.setText(_translate("MainWindow", "TextLabel"))

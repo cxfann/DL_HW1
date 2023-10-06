@@ -27,6 +27,16 @@
      <string>to_A</string>
     </property>
    </widget>
+   <widget class="QLineEdit" name="input_c">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>100</y>
+      <width>211</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

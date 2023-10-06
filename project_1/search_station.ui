@@ -6,47 +6,57 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1136</width>
+    <height>797</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="station2main">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>360</y>
-      <width>201</width>
+      <x>100</x>
+      <y>90</y>
+      <width>181</width>
       <height>111</height>
      </rect>
     </property>
     <property name="text">
-     <string>to_B</string>
+     <string>返回主菜单</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QLineEdit" name="line_station">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>200</x>
+      <y>380</y>
+      <width>601</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="search_station">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
       <y>370</y>
-      <width>241</width>
-      <height>111</height>
+      <width>141</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="text">
-     <string>to_C</string>
+     <string>查询</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="empty_warn">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>160</y>
-      <width>221</width>
-      <height>81</height>
+      <x>430</x>
+      <y>480</y>
+      <width>441</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
@@ -59,7 +69,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1136</width>
      <height>26</height>
     </rect>
    </property>
