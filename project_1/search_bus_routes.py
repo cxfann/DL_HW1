@@ -63,7 +63,7 @@ def search_bus_route(bus_route):
 
     for element in elements_with_common_onclick:
         element.click()
-        time.sleep(1)
+        time.sleep(1.5)
 
     iframe_page_source = driver.page_source
 

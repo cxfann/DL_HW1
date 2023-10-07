@@ -76,7 +76,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "查找线路"))
         self.route2main.setText(_translate("MainWindow", "返回主菜单"))
         self.search_route.setText(_translate("MainWindow", "查询"))
         self.empty_warn.setText(_translate("MainWindow", "TextLabel"))
