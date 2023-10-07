@@ -84,7 +84,7 @@ class RouteWindow(QMainWindow):
         number = self.ui.line_route.text()
         if number.strip():
             route_result = search_bus_route(str(number))
-            self.route_result_window = RouteResultWindow(self.app, route_result, self)
+            self.route_result_window = RouteResultWindow(self.app, route_result, self ,self.main_window)
             self.route_result_window.show()
             self.hide()
             self.ui.empty_warn.setText("")
@@ -128,7 +128,7 @@ class StationWindow(QMainWindow):
         name = self.ui.line_station.text()
         if name.strip():
             station_result = search_bus_stop(str(name))
-            self.station_result_window = StationResultWindow(self.app, station_result, self)
+            self.station_result_window = StationResultWindow(self.app, station_result, self, self.main_window)
             self.station_result_window.show()
             self.hide()
             self.ui.empty_warn.setText("")
@@ -155,9 +155,10 @@ class RouteResultWindow(QMainWindow):
         update_route_info(): Updates the displayed bus route information.
 
     """
-    def __init__(self, app, route_result, route_window):
+    def __init__(self, app, route_result, route_window ,main_window):
         super().__init__()
         self.app = app
+        self.main_window = main_window
         self.route_window = route_window
         self.ui = UiRouteResult()
         self.ui.setupUi(self)
@@ -169,7 +170,7 @@ class RouteResultWindow(QMainWindow):
         self.update_route_info()
 
     def show_main(self):
-        self.route_window.show()
+        self.main_window.show()
         self.close()
 
     def show_route(self):
@@ -261,9 +262,10 @@ class StationResultWindow(QMainWindow):
         update_station_info(): Updates the displayed bus station information.
 
     """
-    def __init__(self, app, station_result, station_window):
+    def __init__(self, app, station_result, station_window , main_window):
         super().__init__()
         self.app = app
+        self.main_window = main_window
         self.station_window = station_window
         self.ui = UiStationResult()
         self.ui.setupUi(self)
@@ -275,7 +277,7 @@ class StationResultWindow(QMainWindow):
         self.update_station_info()
 
     def show_main(self):
-        self.station_window.show()
+        self.main_window.show()
         self.close()
 
     def show_station(self):
