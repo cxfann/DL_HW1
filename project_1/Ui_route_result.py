@@ -75,6 +75,15 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.stops.setFont(font)
         self.stops.setObjectName("stops")
+
+        self.stops_2 = QtWidgets.QLabel(self.centralwidget)
+        self.stops_2.setGeometry(QtCore.QRect(450, 90, 241, 611))
+        font = QtGui.QFont()
+        font.setFamily("等线")
+        font.setPointSize(9)
+        self.stops_2.setFont(font)
+        self.stops_2.setObjectName("stops_2")
+
         self.change_dir = QtWidgets.QPushButton(self.centralwidget)
         self.change_dir.setGeometry(QtCore.QRect(790, 470, 231, 101))
         font = QtGui.QFont()
@@ -89,6 +98,15 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.buses.setFont(font)
         self.buses.setObjectName("buses")
+
+        self.buses_2 = QtWidgets.QLabel(self.centralwidget)
+        self.buses_2.setGeometry(QtCore.QRect(420, 90, 241, 611))
+        font = QtGui.QFont()
+        font.setFamily("等线")
+        font.setPointSize(9)
+        self.buses_2.setFont(font)
+        self.buses_2.setObjectName("buses_2")
+
         self.listView = QtWidgets.QListView(self.centralwidget)
         self.listView.setGeometry(QtCore.QRect(0, 0, 361, 741))
         self.listView.setStyleSheet("background-image: url(\"C:background.jpg\")")

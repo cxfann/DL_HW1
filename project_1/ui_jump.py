@@ -10,6 +10,49 @@ from search_bus_stop import search_bus_stop
 from text_to_unicode import *
 
 class Controller:
+    """
+    This class manages the graphical user interface (GUI) application for searching bus routes and stations.
+
+    Attributes:
+        app (QApplication): The PyQt5 application.
+        window_main (QMainWindow): The main window of the application.
+        window_route (QMainWindow): The window for searching bus routes.
+        window_station (QMainWindow): The window for searching bus stations.
+        window_route_result (QMainWindow): The window displaying bus route search results.
+        window_station_result (QMainWindow): The window displaying bus station search results.
+        line_route (QLineEdit): The input field for bus route number.
+        line_station (QLineEdit): The input field for bus station name.
+        label_empty_r (QLabel): Label for displaying an empty input warning for bus route search.
+        label_empty_s (QLabel): Label for displaying an empty input warning for bus station search.
+        label_r_dir (QLabel): Label for displaying the direction of the bus route.
+        label_r_time (QLabel): Label for displaying the estimated time for the bus route.
+        label_r_length (QLabel): Label for displaying the length of the bus route.
+        label_r_num (QLabel): Label for displaying the number of stops on the bus route.
+        label_r_company (QLabel): Label for displaying the bus company operating the route.
+        label_r_stops (QLabel): Label for displaying the bus stops along the route.
+        label_r_buses (QLabel): Label for displaying bus availability at stops along the route.
+        laber_r_stops_2 (QLabel): Secondary label for displaying bus stops (if there are many).
+        label_r_buses_2 (QLabel): Secondary label for displaying bus availability at stops (if there are many).
+        route_dir (int): A flag (0 or 1) indicating the direction of the bus route.
+        label_s_name (QLabel): Label for displaying the bus station name.
+        label_s_routes (QLabel): Label for displaying the bus routes passing through the station.
+        station_order (int): The index indicating the currently displayed station result.
+
+    Methods:
+        show_main(): Displays the main window of the application.
+        show_route(): Displays the window for searching bus routes.
+        handle_route_search(): Handles the bus route search operation.
+        show_station(): Displays the window for searching bus stations.
+        handle_station_search(): Handles the bus station search operation.
+        show_route_result(route_result): Displays the bus route search results.
+        change_dir(route_result): Changes the direction of displayed bus route information.
+        show_station_result(station_result): Displays the bus station search results.
+        next_station(station_result): Displays the next station result.
+        run(): Starts and runs the GUI application.
+
+    Note:
+        This class utilizes PyQt5 for GUI creation and interacts with functions for searching bus routes and stations.
+    """
     def __init__(self):
         self.app = QApplication(sys.argv)
         self.window_main = None
@@ -31,6 +74,8 @@ class Controller:
         self.label_r_company = None
         self.label_r_stops = None
         self.label_r_buses = None
+        self.laber_r_stops_2 = None
+        self.label_r_buses_2 = None
         self.route_dir = 0  # 0 or 1
 
 
@@ -140,6 +185,8 @@ class Controller:
         self.label_r_company = ui.company
         self.label_r_stops = ui.stops
         self.label_r_buses = ui.buses
+        self.laber_r_stops_2 = ui.stops_2
+        self.label_r_buses_2 = ui.buses_2
         
 
         ui.result2main.clicked.connect(self.show_main)
@@ -158,6 +205,8 @@ class Controller:
             self.label_r_company.setText("")
             self.label_r_stops.setText("")
             self.label_r_buses.setText("")
+            self.laber_r_stops_2.setText("")
+            self.label_r_buses_2.setText("")
 
         elif len(route_result) == 1:
             result = route_result[0]
@@ -174,9 +223,16 @@ class Controller:
                 else:
                     text_b = text_b + '○' + '<br>'
 
-
-            self.label_r_stops.setText(text_s)
-            self.label_r_buses.setText(text_b)
+            if len(result['stops']) < 35:
+                self.label_r_stops.setText(text_s)
+                self.label_r_buses.setText(text_b)
+                self.laber_r_stops_2.setText("")
+                self.label_r_buses_2.setText("")
+            else:
+                self.label_r_stops.setText("")
+                self.label_r_buses.setText("")
+                self.laber_r_stops_2.setText(text_s)
+                self.label_r_buses_2.setText(text_b)
 
 
         else:
@@ -195,8 +251,16 @@ class Controller:
                     text_b = text_b + '○' + '<br>'
 
 
-            self.label_r_stops.setText(text_s)
-            self.label_r_buses.setText(text_b)
+            if len(result['stops']) < 35:
+                self.label_r_stops.setText(text_s)
+                self.label_r_buses.setText(text_b)
+                self.laber_r_stops_2.setText("")
+                self.label_r_buses_2.setText("")
+            else:
+                self.label_r_stops.setText("")
+                self.label_r_buses.setText("")
+                self.laber_r_stops_2.setText(text_s)
+                self.label_r_buses_2.setText(text_b)
 
         if self.window_main is not None:
             self.window_main.close()
@@ -209,7 +273,8 @@ class Controller:
 
     
     def change_dir(self, route_result):
-
+        if route_result == None:
+            pass
         if len(route_result) == 2:
             self.route_dir = 1 - self.route_dir
             result = route_result[self.route_dir]
@@ -227,8 +292,16 @@ class Controller:
                     text_b = text_b + '○' + '<br>'
 
 
-            self.label_r_stops.setText(text_s)
-            self.label_r_buses.setText(text_b)
+            if len(result['stops']) < 35:
+                self.label_r_stops.setText(text_s)
+                self.label_r_buses.setText(text_b)
+                self.laber_r_stops_2.setText("")
+                self.label_r_buses_2.setText("")
+            else:
+                self.label_r_stops.setText("")
+                self.label_r_buses.setText("")
+                self.laber_r_stops_2.setText(text_s)
+                self.label_r_buses_2.setText(text_b)
 
 
 
@@ -270,15 +343,18 @@ class Controller:
 
 
     def next_station(self, station_result):
-        self.station_order = (self.station_order + 1) % len(station_result)
-        show_station = station_result[self.station_order]
-        self.label_s_name.setText(show_station['name'])
-        text = ""
-        if show_station['route'] == []:
-            text = "该站点没有公交线路！"
-        for route in show_station['route']:
-            text = text + str(route) + '<br>'
-        self.label_s_routes.setText(text)
+        if station_result == None:
+            pass
+        else:
+            self.station_order = (self.station_order + 1) % len(station_result)
+            show_station = station_result[self.station_order]
+            self.label_s_name.setText(show_station['name'])
+            text = ""
+            if show_station['route'] == []:
+                text = "该站点没有公交线路！"
+            for route in show_station['route']:
+                text = text + str(route) + '<br>'
+            self.label_s_routes.setText(text)
 
 
     def run(self):
