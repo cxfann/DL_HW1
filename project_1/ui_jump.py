@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow
 from Ui_main_window import Ui_MainWindow as UiMain
 from Ui_search_route import Ui_MainWindow as UiRoute
 from Ui_search_station import Ui_MainWindow as UiStation
@@ -9,355 +9,291 @@ from search_bus_routes import search_bus_route
 from search_bus_stop import search_bus_stop
 from text_to_unicode import *
 
-class Controller:
+
+class MainWindow(QMainWindow):
     """
-    This class manages the graphical user interface (GUI) application for searching bus routes and stations.
+    This class represents the main window of the bus route and station search application.
 
     Attributes:
         app (QApplication): The PyQt5 application.
-        window_main (QMainWindow): The main window of the application.
-        window_route (QMainWindow): The window for searching bus routes.
-        window_station (QMainWindow): The window for searching bus stations.
-        window_route_result (QMainWindow): The window displaying bus route search results.
-        window_station_result (QMainWindow): The window displaying bus station search results.
-        line_route (QLineEdit): The input field for bus route number.
-        line_station (QLineEdit): The input field for bus station name.
-        label_empty_r (QLabel): Label for displaying an empty input warning for bus route search.
-        label_empty_s (QLabel): Label for displaying an empty input warning for bus station search.
-        label_r_dir (QLabel): Label for displaying the direction of the bus route.
-        label_r_time (QLabel): Label for displaying the estimated time for the bus route.
-        label_r_length (QLabel): Label for displaying the length of the bus route.
-        label_r_num (QLabel): Label for displaying the number of stops on the bus route.
-        label_r_company (QLabel): Label for displaying the bus company operating the route.
-        label_r_stops (QLabel): Label for displaying the bus stops along the route.
-        label_r_buses (QLabel): Label for displaying bus availability at stops along the route.
-        laber_r_stops_2 (QLabel): Secondary label for displaying bus stops (if there are many).
-        label_r_buses_2 (QLabel): Secondary label for displaying bus availability at stops (if there are many).
+        ui (UiMain): The user interface of the main window.
+        route_window (RouteWindow): The window for searching bus routes.
+        station_window (StationWindow): The window for searching bus stations.
+
+    Methods:
+        show_route(): Displays the window for searching bus routes.
+        show_station(): Displays the window for searching bus stations.
+
+    """
+    def __init__(self, app):
+        super().__init__()
+        self.app = app
+        self.ui = UiMain()
+        self.ui.setupUi(self)
+        self.ui.main2route.clicked.connect(self.show_route)
+        self.ui.main2station.clicked.connect(self.show_station)
+        self.ui.exit_button.clicked.connect(self.app.quit)
+        self.route_window = None
+        self.station_window = None
+
+    def show_route(self):
+        if self.route_window is None:
+            self.route_window = RouteWindow(self.app, self)
+        self.route_window.show()
+        self.hide()
+
+    def show_station(self):
+        if self.station_window is None:
+            self.station_window = StationWindow(self.app, self)
+        self.station_window.show()
+        self.hide()
+
+
+class RouteWindow(QMainWindow):
+    """
+    This class represents the window for searching bus routes.
+
+    Attributes:
+        app (QApplication): The PyQt5 application.
+        main_window (MainWindow): The main window of the application.
+        ui (UiRoute): The user interface of the route window.
+        route_result_window (RouteResultWindow): The window displaying bus route search results.
+
+    Methods:
+        show_main(): Displays the main window of the application.
+        handle_route_search(): Handles the bus route search operation.
+
+    """
+    def __init__(self, app, main_window):
+        super().__init__()
+        self.app = app
+        self.main_window = main_window
+        self.ui = UiRoute()
+        self.ui.setupUi(self)
+        self.ui.route2main.clicked.connect(self.show_main)
+        self.ui.search_route.clicked.connect(self.handle_route_search)
+        self.route_result_window = None
+        self.ui.empty_warn.setText("")
+        self.ui.line_route.clear()
+
+    def show_main(self):
+        self.main_window.show()
+        self.close()
+
+    def handle_route_search(self):
+        number = self.ui.line_route.text()
+        if number.strip():
+            route_result = search_bus_route(str(number))
+            self.route_result_window = RouteResultWindow(self.app, route_result, self)
+            self.route_result_window.show()
+            self.hide()
+            self.ui.empty_warn.setText("")
+            self.ui.line_route.clear()
+        else:
+            self.ui.empty_warn.setText("输入为空，请重新输入!")
+
+
+class StationWindow(QMainWindow):
+    """
+    This class represents the window for searching bus stations.
+
+    Attributes:
+        app (QApplication): The PyQt5 application.
+        main_window (MainWindow): The main window of the application.
+        ui (UiStation): The user interface of the station window.
+        station_result_window (StationResultWindow): The window displaying bus station search results.
+
+    Methods:
+        show_main(): Displays the main window of the application.
+        handle_station_search(): Handles the bus station search operation.
+
+    """
+    def __init__(self, app, main_window):
+        super().__init__()
+        self.app = app
+        self.main_window = main_window
+        self.ui = UiStation()
+        self.ui.setupUi(self)
+        self.ui.station2main.clicked.connect(self.show_main)
+        self.ui.search_station.clicked.connect(self.handle_station_search)
+        self.station_result_window = None
+        self.ui.empty_warn.setText("")
+        self.ui.line_station.clear()
+
+    def show_main(self):
+        self.main_window.show()
+        self.close()
+
+    def handle_station_search(self):
+        name = self.ui.line_station.text()
+        if name.strip():
+            station_result = search_bus_stop(str(name))
+            self.station_result_window = StationResultWindow(self.app, station_result, self)
+            self.station_result_window.show()
+            self.hide()
+            self.ui.empty_warn.setText("")
+            self.ui.line_station.clear()
+        else:
+            self.ui.empty_warn.setText("输入为空，请重新输入!")
+
+
+class RouteResultWindow(QMainWindow):
+    """
+    This class represents the window displaying bus route search results.
+
+    Attributes:
+        app (QApplication): The PyQt5 application.
+        route_window (RouteWindow): The window for searching bus routes.
+        ui (UiRouteResult): The user interface of the route result window.
+        route_result (list or None): The bus route search results.
         route_dir (int): A flag (0 or 1) indicating the direction of the bus route.
-        label_s_name (QLabel): Label for displaying the bus station name.
-        label_s_routes (QLabel): Label for displaying the bus routes passing through the station.
-        station_order (int): The index indicating the currently displayed station result.
 
     Methods:
         show_main(): Displays the main window of the application.
         show_route(): Displays the window for searching bus routes.
-        handle_route_search(): Handles the bus route search operation.
-        show_station(): Displays the window for searching bus stations.
-        handle_station_search(): Handles the bus station search operation.
-        show_route_result(route_result): Displays the bus route search results.
-        change_dir(route_result): Changes the direction of displayed bus route information.
-        show_station_result(station_result): Displays the bus station search results.
-        next_station(station_result): Displays the next station result.
-        run(): Starts and runs the GUI application.
+        change_dir(): Changes the direction of displayed bus route information.
+        update_route_info(): Updates the displayed bus route information.
 
-    Note:
-        This class utilizes PyQt5 for GUI creation and interacts with functions for searching bus routes and stations.
     """
-    def __init__(self):
-        self.app = QApplication(sys.argv)
-        self.window_main = None
-        self.window_route = None
-        self.window_station = None
-        self.window_route_result = None
-        self.window_station_result = None
-
-        self.line_route = None
-        self.line_station = None
-
-        self.label_empty_r = None
-        self.label_empty_s = None 
-
-        self.label_r_dir = None
-        self.label_r_time = None
-        self.label_r_length = None
-        self.label_r_num = None
-        self.label_r_company = None
-        self.label_r_stops = None
-        self.label_r_buses = None
-        self.laber_r_stops_2 = None
-        self.label_r_buses_2 = None
-        self.route_dir = 0  # 0 or 1
-
-
-        self.label_s_name = None
-        self.label_s_routes = None
-        self.station_order = 0
+    def __init__(self, app, route_result, route_window):
+        super().__init__()
+        self.app = app
+        self.route_window = route_window
+        self.ui = UiRouteResult()
+        self.ui.setupUi(self)
+        self.ui.result2main.clicked.connect(self.show_main)
+        self.ui.result2route.clicked.connect(self.show_route)
+        self.ui.change_dir.clicked.connect(self.change_dir)
+        self.route_result = route_result
+        self.route_dir = 0
+        self.update_route_info()
 
     def show_main(self):
-        if self.window_main is None:
-            self.window_main = QMainWindow()
-            ui = UiMain()
-            ui.setupUi(self.window_main)
-            ui.main2route.clicked.connect(self.show_route)
-            ui.main2station.clicked.connect(self.show_station)
-            ui.exit_button.clicked.connect(self.app.quit)
-
-        self.window_main.show()
-        if self.window_route is not None:
-            self.window_route.close()
-        if self.window_station is not None:
-            self.window_station.close()
-        if self.window_route_result is not None:
-            self.window_route_result.close()
-        if self.window_station_result is not None:
-            self.window_station_result.close()
-
-
-
+        self.route_window.show()
+        self.close()
 
     def show_route(self):
-        if self.window_route is None:
-            self.window_route = QMainWindow()
-            ui = UiRoute()
-            ui.setupUi(self.window_route)
-            self.line_route = ui.line_route
-            self.label_empty_r = ui.empty_warn
-            ui.route2main.clicked.connect(self.show_main)
-            ui.search_route.clicked.connect(self.handle_route_search)
+        self.route_window.show()
+        self.close()
 
-        self.window_route.show()
-        self.line_route.clear()
-        self.label_empty_r.clear()
-        if self.window_main is not None:
-            self.window_main.close()
-        if self.window_station is not None:
-            self.window_station.close()
-        if self.window_route_result is not None:
-            self.window_route_result.close()
-        if self.window_station_result is not None:
-            self.window_station_result.close()
+    def change_dir(self):
+        if self.route_result is not None and len(self.route_result) > 1:
+            self.route_dir = 1 - self.route_dir
+            self.update_route_info()
 
 
-    def handle_route_search(self):
-        number = self.line_route.text()
-        if number.strip():
-            self.show_route_result(search_bus_route(str(number)))
+    def update_route_info(self):
+        if self.route_result is None:
+            self.ui.dir.setText("查找的线路不存在！")
+            self.ui.time.setText("")
+            self.ui.length.setText("")
+            self.ui.num.setText("")
+            self.ui.company.setText("")
+            self.ui.stops.setText("")
+            self.ui.buses.setText("")
+            self.ui.stops_2.setText("")
+            self.ui.buses_2.setText("")
+        elif len(self.route_result) == 1:
+            result = self.route_result[0]
+            self.ui.dir.setText(result['dir'])
+            self.ui.time.setText(result['time'])
+            self.ui.length.setText(result['length'])
+            self.ui.num.setText(result['stops_num'])
+            self.ui.company.setText(result['company'])
+            text_s = ""
+            text_b = ""
+            for key, value in result['stops'].items():
+                text_s += str(key) + '<br>'
+                text_b += '●' if value == 1 else '○'
+                text_b += '<br>'
+
+            if len(result['stops']) < 35:
+                self.ui.stops.setText(text_s)
+                self.ui.buses.setText(text_b)
+                self.ui.stops_2.setText("")
+                self.ui.buses_2.setText("")
+            else:
+                self.ui.stops.setText("")
+                self.ui.buses.setText("")
+                self.ui.stops_2.setText(text_s)
+                self.ui.buses_2.setText(text_b)
         else:
-            self.label_empty_r.setText("输入为空，请重新输入！")
+            result = self.route_result[self.route_dir]
+            self.ui.dir.setText(result['dir'])
+            self.ui.time.setText(result['time'])
+            self.ui.length.setText(result['length'])
+            self.ui.num.setText(result['stops_num'])
+            self.ui.company.setText(result['company'])
+            text_s = ""
+            text_b = ""
+            for key, value in result['stops'].items():
+                text_s += str(key) + '<br>'
+                text_b += '●' if value == 1 else '○'
+                text_b += '<br>'
+
+            if len(result['stops']) < 35:
+                self.ui.stops.setText(text_s)
+                self.ui.buses.setText(text_b)
+                self.ui.stops_2.setText("")
+                self.ui.buses_2.setText("")
+            else:
+                self.ui.stops.setText("")
+                self.ui.buses.setText("")
+                self.ui.stops_2.setText(text_s)
+                self.ui.buses_2.setText(text_b)
 
 
+class StationResultWindow(QMainWindow):
+    """
+    This class represents the window displaying bus station search results.
 
+    Attributes:
+        app (QApplication): The PyQt5 application.
+        station_window (StationWindow): The window for searching bus stations.
+        ui (UiStationResult): The user interface of the station result window.
+        station_result (list or None): The bus station search results.
+        station_order (int): The index indicating the currently displayed station result.
 
+    Methods:
+        show_main(): Displays the main window of the application.
+        show_station(): Displays the window for searching bus stations.
+        next_station(): Displays the next station result.
+        update_station_info(): Updates the displayed bus station information.
+
+    """
+    def __init__(self, app, station_result, station_window):
+        super().__init__()
+        self.app = app
+        self.station_window = station_window
+        self.ui = UiStationResult()
+        self.ui.setupUi(self)
+        self.ui.result2main.clicked.connect(self.show_main)
+        self.ui.result2station.clicked.connect(self.show_station)
+        self.ui.next_station.clicked.connect(self.next_station)
+        self.station_result = station_result
+        self.station_order = 0
+        self.update_station_info()
+
+    def show_main(self):
+        self.station_window.show()
+        self.close()
 
     def show_station(self):
-        if self.window_station is None:
-            self.window_station = QMainWindow()
-            ui = UiStation()
-            ui.setupUi(self.window_station)
-            self.line_station = ui.line_station
-            self.label_empty_s = ui.empty_warn
-            ui.station2main.clicked.connect(self.show_main)
-            ui.search_station.clicked.connect(self.handle_station_search)
+        self.station_window.show()
+        self.close()
 
-        self.window_station.show()
-        self.line_station.clear()
-        self.label_empty_s.clear()
-        if self.window_main is not None:
-            self.window_main.close()
-        if self.window_route is not None:
-            self.window_route.close()
-        if self.window_route_result is not None:
-            self.window_route_result.close()
-        if self.window_station_result is not None:
-            self.window_station_result.close()
+    def next_station(self):
+        if self.station_result:
+            self.station_order = (self.station_order + 1) % len(self.station_result)
+            self.update_station_info()
 
-
-
-    def handle_station_search(self):
-        name = self.line_station.text()
-        if name.strip():
-            self.show_station_result(search_bus_stop(str(name)))
+    def update_station_info(self):
+        if self.station_result is None:
+            self.ui.station_name.setText("查找的站点不存在！")
+            self.ui.pass_routes.setText("")
         else:
-            self.label_empty_s.setText("输入为空，请重新输入！")
-
-
-
-    def show_route_result(self, route_result):
-        
-        self.window_route_result = QMainWindow()
-        ui = UiRouteResult()
-        ui.setupUi(self.window_route_result)
-
-        self.label_r_dir = ui.dir
-        self.label_r_time = ui.time
-        self.label_r_length = ui.length
-        self.label_r_num = ui.num
-        self.label_r_company = ui.company
-        self.label_r_stops = ui.stops
-        self.label_r_buses = ui.buses
-        self.laber_r_stops_2 = ui.stops_2
-        self.label_r_buses_2 = ui.buses_2
-        
-
-        ui.result2main.clicked.connect(self.show_main)
-        ui.result2route.clicked.connect(self.show_route)
-
-        ui.change_dir.clicked.connect(lambda: self.change_dir(route_result))
-
-
-        self.window_route_result.show()      
-
-        if route_result == None:
-            self.label_r_dir.setText("查找的线路不存在！")
-            self.label_r_time.setText("")
-            self.label_r_length.setText("")
-            self.label_r_num.setText("")
-            self.label_r_company.setText("")
-            self.label_r_stops.setText("")
-            self.label_r_buses.setText("")
-            self.laber_r_stops_2.setText("")
-            self.label_r_buses_2.setText("")
-
-        elif len(route_result) == 1:
-            result = route_result[0]
-            self.label_r_dir.setText(result['dir'])
-            self.label_r_time.setText(result['time'])
-            self.label_r_length.setText(result['length'])
-            self.label_r_num.setText(result['stops_num'])
-            self.label_r_company.setText(result['company'])
-            text_s = text_b = ""
-            for key, value in result['stops'].items():
-                text_s = text_s + str(key)+ '<br>'
-                if value == 1:
-                    text_b = text_b + '●' + '<br>'
-                else:
-                    text_b = text_b + '○' + '<br>'
-
-            if len(result['stops']) < 35:
-                self.label_r_stops.setText(text_s)
-                self.label_r_buses.setText(text_b)
-                self.laber_r_stops_2.setText("")
-                self.label_r_buses_2.setText("")
-            else:
-                self.label_r_stops.setText("")
-                self.label_r_buses.setText("")
-                self.laber_r_stops_2.setText(text_s)
-                self.label_r_buses_2.setText(text_b)
-
-
-        else:
-            result = route_result[self.route_dir]
-            self.label_r_dir.setText(result['dir'])
-            self.label_r_time.setText(result['time'])
-            self.label_r_length.setText(result['length'])
-            self.label_r_num.setText(result['stops_num'])
-            self.label_r_company.setText(result['company'])
-            text_s = text_b = ""
-            for key, value in result['stops'].items():
-                text_s = text_s + str(key)+ '<br>'
-                if value == 1:
-                    text_b = text_b + '●' + '<br>'
-                else:
-                    text_b = text_b + '○' + '<br>'
-
-
-            if len(result['stops']) < 35:
-                self.label_r_stops.setText(text_s)
-                self.label_r_buses.setText(text_b)
-                self.laber_r_stops_2.setText("")
-                self.label_r_buses_2.setText("")
-            else:
-                self.label_r_stops.setText("")
-                self.label_r_buses.setText("")
-                self.laber_r_stops_2.setText(text_s)
-                self.label_r_buses_2.setText(text_b)
-
-        if self.window_main is not None:
-            self.window_main.close()
-        if self.window_route is not None:
-            self.window_route.close()
-        if self.window_station is not None:
-            self.window_station.close()
-        if self.window_station_result is not None:
-            self.window_station_result.close()
-
-    
-    def change_dir(self, route_result):
-        if route_result == None:
-            pass
-        if len(route_result) == 2:
-            self.route_dir = 1 - self.route_dir
-            result = route_result[self.route_dir]
-            self.label_r_dir.setText(result['dir'])
-            self.label_r_time.setText(result['time'])
-            self.label_r_length.setText(result['length'])
-            self.label_r_num.setText(result['stops_num'])
-            self.label_r_company.setText(result['company'])
-            text_s = text_b = ""
-            for key, value in result['stops'].items():
-                text_s = text_s + str(key)+ '<br>'
-                if value == 1:
-                    text_b = text_b + '●' + '<br>'
-                else:
-                    text_b = text_b + '○' + '<br>'
-
-
-            if len(result['stops']) < 35:
-                self.label_r_stops.setText(text_s)
-                self.label_r_buses.setText(text_b)
-                self.laber_r_stops_2.setText("")
-                self.label_r_buses_2.setText("")
-            else:
-                self.label_r_stops.setText("")
-                self.label_r_buses.setText("")
-                self.laber_r_stops_2.setText(text_s)
-                self.label_r_buses_2.setText(text_b)
-
-
-
-
-
-    def show_station_result(self, station_result): 
-        self.station_order = 0
-        self.window_station_result = QMainWindow()
-        ui = UiStationResult()
-        ui.setupUi(self.window_station_result)
-        self.label_s_name = ui.station_name
-        self.label_s_routes = ui.pass_routes
-        ui.result2main.clicked.connect(self.show_main)
-        ui.result2station.clicked.connect(self.show_station)
-        ui.next_station.clicked.connect(lambda: self.next_station(station_result))
-
-        self.window_station_result.show()
-        if station_result == None:
-            self.label_s_name.setText("查找的站点不存在！")
-            self.label_s_routes.setText("")
-        else:
-            show_station = station_result[self.station_order]
-            self.label_s_name.setText(show_station['name'])
-            text = ""
-            if show_station['route'] == []:
-                text = "该站点没有公交线路！"
-            for route in show_station['route']:
-                text = text + str(route) + '<br>'
-            self.label_s_routes.setText(text)
-
-        if self.window_main is not None:
-            self.window_main.close()
-        if self.window_route is not None:
-            self.window_route.close()
-        if self.window_station is not None:
-            self.window_station.close()
-        if self.window_route_result is not None:
-            self.window_route_result.close()
-
-
-    def next_station(self, station_result):
-        if station_result == None:
-            pass
-        else:
-            self.station_order = (self.station_order + 1) % len(station_result)
-            show_station = station_result[self.station_order]
-            self.label_s_name.setText(show_station['name'])
-            text = ""
-            if show_station['route'] == []:
-                text = "该站点没有公交线路！"
-            for route in show_station['route']:
-                text = text + str(route) + '<br>'
-            self.label_s_routes.setText(text)
-
-
-    def run(self):
-        self.show_main()
-        sys.exit(self.app.exec_())
+            show_station = self.station_result[self.station_order]
+            self.ui.station_name.setText(show_station['name'])
+            text = "该站点没有公交线路！" if not show_station['route'] else "<br>".join(map(str, show_station['route']))
+            self.ui.pass_routes.setText(text)
 
