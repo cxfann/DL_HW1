@@ -51,7 +51,7 @@ def search_bus_route(bus_route):
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(url)
 
-    wait = WebDriverWait(driver, 0.5)
+    wait = WebDriverWait(driver, 1)
     iframe_element = wait.until(EC.presence_of_element_located((By.ID, 'iframeMap')))
     driver.switch_to.frame(iframe_element)
 
@@ -63,7 +63,7 @@ def search_bus_route(bus_route):
 
     for element in elements_with_common_onclick:
         element.click()
-        time.sleep(1.5)
+        time.sleep(2)
 
     iframe_page_source = driver.page_source
 

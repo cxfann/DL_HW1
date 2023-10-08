@@ -73,7 +73,7 @@ class RouteWindow(QMainWindow):
         self.ui.route2main.clicked.connect(self.show_main)
         self.ui.search_route.clicked.connect(self.handle_route_search)
         self.route_result_window = None
-        self.ui.empty_warn.setText("")
+        self.ui.empty_warn.setText("查询可能需要几秒时间，请耐心等待！")
         self.ui.line_route.clear()
 
     def show_main(self):
@@ -87,7 +87,7 @@ class RouteWindow(QMainWindow):
             self.route_result_window = RouteResultWindow(self.app, route_result, self ,self.main_window)
             self.route_result_window.show()
             self.hide()
-            self.ui.empty_warn.setText("")
+            self.ui.empty_warn.setText("查询可能需要几秒时间，请耐心等待！")
             self.ui.line_route.clear()
         else:
             self.ui.empty_warn.setText("输入为空，请重新输入!")
@@ -117,7 +117,7 @@ class StationWindow(QMainWindow):
         self.ui.station2main.clicked.connect(self.show_main)
         self.ui.search_station.clicked.connect(self.handle_station_search)
         self.station_result_window = None
-        self.ui.empty_warn.setText("")
+        self.ui.empty_warn.setText("查询可能需要几秒时间，请耐心等待！")
         self.ui.line_station.clear()
 
     def show_main(self):
@@ -131,7 +131,7 @@ class StationWindow(QMainWindow):
             self.station_result_window = StationResultWindow(self.app, station_result, self, self.main_window)
             self.station_result_window.show()
             self.hide()
-            self.ui.empty_warn.setText("")
+            self.ui.empty_warn.setText("查询可能需要几秒时间，请耐心等待！")
             self.ui.line_station.clear()
         else:
             self.ui.empty_warn.setText("输入为空，请重新输入!")
@@ -186,6 +186,7 @@ class RouteResultWindow(QMainWindow):
     def update_route_info(self):
         if self.route_result is None:
             self.ui.dir.setText("查找的线路不存在！")
+            self.ui.dir_2.setText("")
             self.ui.time.setText("")
             self.ui.length.setText("")
             self.ui.num.setText("")
@@ -196,7 +197,12 @@ class RouteResultWindow(QMainWindow):
             self.ui.buses_2.setText("")
         elif len(self.route_result) == 1:
             result = self.route_result[0]
-            self.ui.dir.setText(result['dir'])
+            if len(result['dir']) < 20:
+                self.ui.dir.setText(result['dir'])
+                self.ui.dir_2.setText("")
+            else:
+                self.ui.dir.setText("")
+                self.ui.dir_2.setText(result['dir'])
             self.ui.time.setText(result['time'])
             self.ui.length.setText(result['length'])
             self.ui.num.setText(result['stops_num'])
@@ -220,7 +226,12 @@ class RouteResultWindow(QMainWindow):
                 self.ui.buses_2.setText(text_b)
         else:
             result = self.route_result[self.route_dir]
-            self.ui.dir.setText(result['dir'])
+            if len(result['dir']) < 20:
+                self.ui.dir.setText(result['dir'])
+                self.ui.dir_2.setText("")
+            else:
+                self.ui.dir.setText("")
+                self.ui.dir_2.setText(result['dir'])
             self.ui.time.setText(result['time'])
             self.ui.length.setText(result['length'])
             self.ui.num.setText(result['stops_num'])

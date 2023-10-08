@@ -40,7 +40,7 @@ def search_bus_stop(bus_stop):
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(url)
 
-    wait = WebDriverWait(driver, 0.3)
+    wait = WebDriverWait(driver, 1)
     iframe_element = wait.until(EC.presence_of_element_located((By.ID, 'iframeMap')))
 
 
