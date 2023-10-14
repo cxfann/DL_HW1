@@ -1,3 +1,6 @@
+import sys
+sys.path.append('./utils')
+
 from ui_jump import *
 
 

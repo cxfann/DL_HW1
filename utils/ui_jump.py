@@ -1,4 +1,6 @@
 import sys
+sys.path.append('./ui')
+
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from Ui_main_window import Ui_MainWindow as UiMain
 from Ui_search_route import Ui_MainWindow as UiRoute
